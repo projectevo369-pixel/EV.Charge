@@ -141,6 +141,51 @@ export const darkTokens: ThemeTokens = {
   },
 };
 
+/**
+ * CSS variable references so SSR and initial client hydration produce identical markup
+ * while the <head> script's `.dark` class resolves the active theme immediately on first paint.
+ */
+export const cssVarTokens: ThemeTokens = {
+  mode: 'light',
+  colors: {
+    background: 'var(--ev-bg)',
+    backgroundAlt: 'var(--ev-bg-alt)',
+    backgroundElevated: 'var(--ev-bg-elevated)',
+    accent: 'var(--ev-accent)',
+    accentHover: 'var(--ev-accent-hover)',
+    onAccent: 'var(--ev-on-accent)',
+    accentSoft: 'var(--ev-accent-soft)',
+    accentBorder: 'var(--ev-accent-border)',
+    textPrimary: 'var(--ev-text-primary)',
+    textSecondary: 'var(--ev-text-secondary)',
+    cardSurface: 'var(--ev-card-bg)',
+    cardSurfaceElevated: 'var(--ev-card-bg-elevated)',
+    cardBorder: 'var(--ev-card-border)',
+    cardBorderHover: 'var(--ev-card-border-hover)',
+    divider: 'var(--ev-divider)',
+    iconBadgeBg: 'var(--ev-icon-badge-bg)',
+    iconBadgeBorder: 'var(--ev-icon-badge-border)',
+    iconColor: 'var(--ev-icon-color)',
+    ringTrack: 'var(--ev-ring-track)',
+    headerScrolledBg: 'var(--ev-header-scrolled-bg)',
+    headerBorder: 'var(--ev-header-border)',
+    featuredCardBg: 'var(--ev-featured-card-bg)',
+    featuredCardBorder: 'var(--ev-featured-card-border)',
+    mapGridLine: 'var(--ev-map-grid-line)',
+    glowBlurPrimary: 'var(--ev-glow-blur-primary)',
+    glowBlurSecondary: 'var(--ev-glow-blur-secondary)',
+  },
+  shadows: {
+    card: 'var(--ev-shadow-card)',
+    halo: 'var(--ev-shadow-halo)',
+    button: 'var(--ev-shadow-button)',
+    buttonHover: 'var(--ev-shadow-button-hover)',
+    featuredPulseFrom: lightTokens.shadows.featuredPulseFrom,
+    featuredPulseTo: lightTokens.shadows.featuredPulseTo,
+  },
+  radii: lightTokens.radii,
+};
+
 export const themeTokensMap: Record<ThemeMode, ThemeTokens> = {
   light: lightTokens,
   dark: darkTokens,

@@ -4,27 +4,67 @@
 :root {
   --ev-bg: #FFFFFF;
   --ev-bg-alt: #F6F8F7;
+  --ev-bg-elevated: #EEF3F1;
   --ev-accent: #0FA968;
+  --ev-accent-hover: #0D945B;
   --ev-on-accent: #FFFFFF;
+  --ev-accent-soft: #E6F8F0;
+  --ev-accent-border: rgba(15, 169, 104, 0.28);
   --ev-text-primary: #0F172A;
   --ev-text-secondary: #5B6B69;
   --ev-card-bg: #FFFFFF;
+  --ev-card-bg-elevated: #F6F8F7;
   --ev-card-border: #E6ECEA;
+  --ev-card-border-hover: rgba(15, 169, 104, 0.45);
+  --ev-divider: #E6ECEA;
   --ev-icon-badge-bg: #E6F8F0;
+  --ev-icon-badge-border: rgba(15, 169, 104, 0.2);
+  --ev-icon-color: #0FA968;
   --ev-ring-track: #E6F8F0;
+  --ev-header-scrolled-bg: rgba(255, 255, 255, 0.86);
+  --ev-header-border: #E6ECEA;
+  --ev-featured-card-bg: rgba(230, 248, 240, 0.45);
+  --ev-featured-card-border: #0FA968;
+  --ev-map-grid-line: #DFE7E4;
+  --ev-glow-blur-primary: rgba(15, 169, 104, 0.14);
+  --ev-glow-blur-secondary: rgba(15, 169, 104, 0.08);
+  --ev-shadow-card: 0 10px 28px rgba(15, 169, 104, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04);
+  --ev-shadow-halo: 0 20px 56px rgba(15, 169, 104, 0.16), 0 4px 16px rgba(15, 23, 42, 0.05);
+  --ev-shadow-button: 0 8px 22px rgba(15, 169, 104, 0.25);
+  --ev-shadow-button-hover: 0 12px 30px rgba(15, 169, 104, 0.38);
 }
 
 .dark {
   --ev-bg: #0A0E0F;
   --ev-bg-alt: #14191A;
+  --ev-bg-elevated: #1A2022;
   --ev-accent: #C6FF3D;
+  --ev-accent-hover: #D3FF66;
   --ev-on-accent: #0A0E0F;
+  --ev-accent-soft: rgba(198, 255, 61, 0.12);
+  --ev-accent-border: rgba(198, 255, 61, 0.35);
   --ev-text-primary: #F5F7F6;
   --ev-text-secondary: #8A9594;
   --ev-card-bg: #14191A;
+  --ev-card-bg-elevated: #1A2022;
   --ev-card-border: rgba(255, 255, 255, 0.09);
+  --ev-card-border-hover: rgba(198, 255, 61, 0.45);
+  --ev-divider: rgba(255, 255, 255, 0.08);
   --ev-icon-badge-bg: #1B2224;
+  --ev-icon-badge-border: rgba(255, 255, 255, 0.1);
+  --ev-icon-color: #C6FF3D;
   --ev-ring-track: #1E2527;
+  --ev-header-scrolled-bg: rgba(10, 14, 15, 0.84);
+  --ev-header-border: rgba(255, 255, 255, 0.09);
+  --ev-featured-card-bg: #14191A;
+  --ev-featured-card-border: #C6FF3D;
+  --ev-map-grid-line: #262E30;
+  --ev-glow-blur-primary: rgba(198, 255, 61, 0.14);
+  --ev-glow-blur-secondary: rgba(198, 255, 61, 0.07);
+  --ev-shadow-card: 0 12px 32px rgba(0, 0, 0, 0.32);
+  --ev-shadow-halo: 0 0 52px rgba(198, 255, 61, 0.18);
+  --ev-shadow-button: 0 0 24px rgba(198, 255, 61, 0.32);
+  --ev-shadow-button-hover: 0 0 38px rgba(198, 255, 61, 0.55);
 }
 
 html {

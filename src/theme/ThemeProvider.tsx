@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { darkTokens, lightTokens, ThemeMode, ThemeTokens } from './tokens';
+import { cssVarTokens, darkTokens, lightTokens, ThemeMode, ThemeTokens } from './tokens';
 
 const STORAGE_KEY = 'ev-charge-theme';
 
@@ -14,7 +14,7 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-function getInitialThemeMode(): ThemeMode {
+function readClientThemeMode(): ThemeMode {
   if (typeof window === 'undefined') {
     return 'light';
   }
@@ -45,39 +45,33 @@ function applyThemeToDocument(mode: ThemeMode) {
 
   root.style.colorScheme = mode;
   root.style.backgroundColor = activeTokens.colors.background;
-  root.style.setProperty('--ev-bg', activeTokens.colors.background);
-  root.style.setProperty('--ev-bg-alt', activeTokens.colors.backgroundAlt);
-  root.style.setProperty('--ev-accent', activeTokens.colors.accent);
-  root.style.setProperty('--ev-on-accent', activeTokens.colors.onAccent);
-  root.style.setProperty('--ev-text-primary', activeTokens.colors.textPrimary);
-  root.style.setProperty('--ev-text-secondary', activeTokens.colors.textSecondary);
-  root.style.setProperty('--ev-card-bg', activeTokens.colors.cardSurface);
-  root.style.setProperty('--ev-card-border', activeTokens.colors.cardBorder);
-  root.style.setProperty('--ev-icon-badge-bg', activeTokens.colors.iconBadgeBg);
-  root.style.setProperty('--ev-ring-track', activeTokens.colors.ringTrack);
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setModeState] = useState<ThemeMode>(getInitialThemeMode);
+  // Always start deterministic on SSR & initial hydration pass to prevent mismatch errors
+  const [mode, setModeState] = useState<ThemeMode>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    const initialClientMode = readClientThemeMode();
+    setModeState(initialClientMode);
+    applyThemeToDocument(initialClientMode);
     setMounted(true);
-    applyThemeToDocument(mode);
-  }, [mode]);
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return;
-
+    if (!window.matchMedia) return;
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleSystemChange = (event: MediaQueryListEvent) => {
       try {
         const stored = window.localStorage.getItem(STORAGE_KEY);
         if (stored !== 'light' && stored !== 'dark') {
-          setModeState(event.matches ? 'dark' : 'light');
+          const nextMode: ThemeMode = event.matches ? 'dark' : 'light';
+          setModeState(nextMode);
+          applyThemeToDocument(nextMode);
         }
       } catch {
-        setModeState(event.matches ? 'dark' : 'light');
+        const nextMode: ThemeMode = event.matches ? 'dark' : 'light';
+        setModeState(nextMode);
+        applyThemeToDocument(nextMode);
       }
     };
 
@@ -100,11 +94,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [mode, setMode]);
 
   const value = useMemo<ThemeContextValue>(() => {
-    const tokens = mode === 'dark' ? darkTokens : lightTokens;
+    const activeConcreteTokens = mode === 'dark' ? darkTokens : lightTokens;
+    const tokens: ThemeTokens = {
+      ...cssVarTokens,
+      mode: mounted ? mode : 'light',
+      shadows: {
+        ...cssVarTokens.shadows,
+        featuredPulseFrom: activeConcreteTokens.shadows.featuredPulseFrom,
+        featuredPulseTo: activeConcreteTokens.shadows.featuredPulseTo,
+      },
+    };
     return {
-      mode,
+      mode: mounted ? mode : 'light',
       tokens,
-      isDark: mode === 'dark',
+      isDark: mounted && mode === 'dark',
       setMode,
       toggleTheme,
       mounted,

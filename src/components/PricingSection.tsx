@@ -56,7 +56,7 @@ const PLANS = [
 ];
 
 export function PricingSection({ onSelectPlan }: PricingSectionProps) {
-  const { tokens, isDark } = useTheme();
+  const { tokens, isDark, mounted } = useTheme();
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -96,7 +96,7 @@ export function PricingSection({ onSelectPlan }: PricingSectionProps) {
                 <RevealItem key={plan.name} className="h-full">
                   <motion.article
                     animate={
-                      shouldReduceMotion
+                      !mounted || shouldReduceMotion
                         ? undefined
                         : {
                             boxShadow: [
