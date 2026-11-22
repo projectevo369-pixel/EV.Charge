@@ -1,7 +1,10 @@
+import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '../theme/ThemeProvider';
-import { AppRoute } from './Navbar';
+import { SeoHead } from './SeoHead';
+
+export type LegalDocKey = 'privacy' | 'terms' | 'refund';
 
 interface LegalSection {
   heading: string;
@@ -9,14 +12,21 @@ interface LegalSection {
 }
 
 interface LegalContent {
+  path: `/${LegalDocKey}`;
+  seoTitle: string;
+  seoDescription: string;
   title: string;
   updatedAt: string;
   summary: string;
   sections: LegalSection[];
 }
 
-const LEGAL_CONTENT: Record<Exclude<AppRoute, '/'>, LegalContent> = {
-  '/privacy': {
+const LEGAL_CONTENT: Record<LegalDocKey, LegalContent> = {
+  privacy: {
+    path: '/privacy',
+    seoTitle: 'Privacy Policy — ev.charge',
+    seoDescription:
+      'Learn how ev.charge India Pvt. Ltd. collects, protects, and uses your data across our EV charging app and stations.',
     title: 'Privacy Policy',
     updatedAt: 'Last updated: 1 November 2026',
     summary:
@@ -45,7 +55,11 @@ const LEGAL_CONTENT: Record<Exclude<AppRoute, '/'>, LegalContent> = {
       },
     ],
   },
-  '/terms': {
+  terms: {
+    path: '/terms',
+    seoTitle: 'Terms of Service — ev.charge',
+    seoDescription:
+      'Review the Terms of Service for using the ev.charge EV fast-charging network, bay reservations, UPI payments, and monthly plans.',
     title: 'Terms of Service',
     updatedAt: 'Last updated: 1 November 2026',
     summary:
@@ -74,7 +88,11 @@ const LEGAL_CONTENT: Record<Exclude<AppRoute, '/'>, LegalContent> = {
       },
     ],
   },
-  '/refund': {
+  refund: {
+    path: '/refund',
+    seoTitle: 'Refund Policy — ev.charge',
+    seoDescription:
+      'Read the ev.charge Refund Policy covering interrupted charging sessions, UPI pre-authorization reversals, and monthly plans.',
     title: 'Refund Policy',
     updatedAt: 'Last updated: 1 November 2026',
     summary:
@@ -104,21 +122,18 @@ const LEGAL_CONTENT: Record<Exclude<AppRoute, '/'>, LegalContent> = {
   },
 };
 
-interface LegalPageProps {
-  route: Exclude<AppRoute, '/'>;
-  onNavigate: (route: AppRoute) => void;
-}
-
-export function LegalPage({ route, onNavigate }: LegalPageProps) {
+export function LegalPage({ docKey }: { docKey: LegalDocKey }) {
   const { tokens } = useTheme();
   const shouldReduceMotion = useReducedMotion();
-  const doc = LEGAL_CONTENT[route];
+  const doc = LEGAL_CONTENT[docKey];
 
   return (
     <main
       style={{ backgroundColor: tokens.colors.background }}
       className="theme-transition flex-1 py-12 sm:py-16"
     >
+      <SeoHead title={doc.seoTitle} description={doc.seoDescription} />
+
       <motion.div
         initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -126,18 +141,14 @@ export function LegalPage({ route, onNavigate }: LegalPageProps) {
         className="max-w-[820px] mx-auto px-5 sm:px-6 flex flex-col gap-8"
       >
         <div>
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              onNavigate('/');
-            }}
+          <Link
+            to="/"
             style={{ color: tokens.colors.accent }}
             className="inline-flex items-center gap-2 text-sm font-semibold hover:underline underline-offset-4"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span>Back to Home</span>
-          </a>
+          </Link>
         </div>
 
         <header
@@ -197,21 +208,17 @@ export function LegalPage({ route, onNavigate }: LegalPageProps) {
             Other legal documents:
           </span>
           <div className="flex flex-wrap items-center gap-5">
-            {(['/privacy', '/terms', '/refund'] as const)
-              .filter((r) => r !== route)
-              .map((otherRoute) => (
-                <a
-                  key={otherRoute}
-                  href={otherRoute}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onNavigate(otherRoute);
-                  }}
+            {(['privacy', 'terms', 'refund'] as const)
+              .filter((k) => k !== docKey)
+              .map((otherKey) => (
+                <Link
+                  key={otherKey}
+                  to={LEGAL_CONTENT[otherKey].path}
                   style={{ color: tokens.colors.accent }}
                   className="text-sm font-semibold hover:underline underline-offset-4"
                 >
-                  {LEGAL_CONTENT[otherRoute].title}
-                </a>
+                  {LEGAL_CONTENT[otherKey].title}
+                </Link>
               ))}
           </div>
         </div>

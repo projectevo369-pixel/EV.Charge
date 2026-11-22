@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Zap } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '../theme/ThemeProvider';
 import { PrimaryActionButton } from './MotionPrimitives';
 import { ThemeToggle } from './ThemeToggle';
 
-export type AppRoute = '/' | '/privacy' | '/terms' | '/refund';
-
 interface NavbarProps {
-  currentRoute: AppRoute;
-  onNavigate: (route: AppRoute, hash?: string) => void;
   onOpenDownload: (sourcePlan?: string) => void;
 }
 
@@ -20,9 +17,11 @@ const NAV_LINKS = [
   { label: 'Plans', hash: 'plans' },
 ];
 
-export function Navbar({ currentRoute, onNavigate, onOpenDownload }: NavbarProps) {
+export function Navbar({ onOpenDownload }: NavbarProps) {
   const { tokens } = useTheme();
   const shouldReduceMotion = useReducedMotion();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -35,13 +34,27 @@ export function Navbar({ currentRoute, onNavigate, onOpenDownload }: NavbarProps
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, hash?: string) => {
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    if (hash) {
-      onNavigate('/', hash);
-    } else {
-      onNavigate('/');
+
+    if (location.pathname !== '/') {
+      navigate(`/#${hash}`);
+      return;
+    }
+
+    const el = document.getElementById(hash);
+    if (el) {
+      el.scrollIntoView({
+        behavior: shouldReduceMotion ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    }
+  };
+
+  const handleBrandClick = () => {
+    setMobileMenuOpen(false);
+    if (location.pathname === '/') {
       window.scrollTo({
         top: 0,
         behavior: shouldReduceMotion ? 'auto' : 'smooth',
@@ -61,9 +74,9 @@ export function Navbar({ currentRoute, onNavigate, onOpenDownload }: NavbarProps
     >
       <div className="max-w-[1200px] mx-auto px-5 sm:px-6 py-2.5 md:py-3.5 flex items-center justify-between gap-4 md:gap-8">
         {/* Zone 1: Brand wordmark */}
-        <a
-          href="/"
-          onClick={(e) => handleNavClick(e)}
+        <Link
+          to="/"
+          onClick={handleBrandClick}
           style={{ color: tokens.colors.textPrimary }}
           className="inline-flex items-center gap-2.5 whitespace-nowrap shrink-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-2"
         >
@@ -78,7 +91,7 @@ export function Navbar({ currentRoute, onNavigate, onOpenDownload }: NavbarProps
             <Zap className="w-4 h-4 fill-current" aria-hidden="true" />
           </span>
           <span className="font-display text-xl font-bold tracking-tight">ev.charge</span>
-        </a>
+        </Link>
 
         {/* Zone 2: Clean single-line navigation links */}
         <nav aria-label="Primary" className="hidden md:flex items-center gap-7">
@@ -86,7 +99,7 @@ export function Navbar({ currentRoute, onNavigate, onOpenDownload }: NavbarProps
             <a
               key={item.hash}
               href={`/#${item.hash}`}
-              onClick={(e) => handleNavClick(e, item.hash)}
+              onClick={(e) => handleAnchorClick(e, item.hash)}
               style={{ color: tokens.colors.textSecondary }}
               className="theme-transition relative py-1 text-sm font-semibold whitespace-nowrap shrink-0 hover:opacity-100 hover:underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 rounded-sm"
               onMouseEnter={(e) => {
@@ -152,22 +165,22 @@ export function Navbar({ currentRoute, onNavigate, onOpenDownload }: NavbarProps
                 <a
                   key={item.hash}
                   href={`/#${item.hash}`}
-                  onClick={(e) => handleNavClick(e, item.hash)}
+                  onClick={(e) => handleAnchorClick(e, item.hash)}
                   style={{ color: tokens.colors.textPrimary }}
                   className="py-2 text-base font-semibold whitespace-nowrap"
                 >
                   {item.label}
                 </a>
               ))}
-              {currentRoute !== '/' && (
-                <a
-                  href="/"
-                  onClick={(e) => handleNavClick(e)}
+              {location.pathname !== '/' && (
+                <Link
+                  to="/"
+                  onClick={() => setMobileMenuOpen(false)}
                   style={{ color: tokens.colors.textSecondary }}
                   className="py-2 text-base font-semibold whitespace-nowrap"
                 >
                   Home
-                </a>
+                </Link>
               )}
               <div className="pt-2">
                 <PrimaryActionButton

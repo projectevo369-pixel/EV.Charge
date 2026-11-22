@@ -3,26 +3,8 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '../theme/ThemeProvider';
 
 export function ThemeToggle() {
-  const { isDark, toggleTheme, tokens, mounted } = useTheme();
+  const { isDark, toggleTheme, tokens } = useTheme();
   const shouldReduceMotion = useReducedMotion();
-
-  if (!mounted) {
-    return (
-      <button
-        type="button"
-        disabled
-        aria-label="Toggle color theme"
-        style={{
-          backgroundColor: tokens.colors.cardSurfaceElevated,
-          borderColor: tokens.colors.cardBorder,
-          color: tokens.colors.textPrimary,
-        }}
-        className="theme-transition inline-flex items-center justify-center min-w-[56px] min-h-[56px] md:min-w-[44px] md:min-h-[44px] rounded-full border shrink-0"
-      >
-        <span className="w-5 h-5 block" aria-hidden="true" />
-      </button>
-    );
-  }
 
   return (
     <motion.button

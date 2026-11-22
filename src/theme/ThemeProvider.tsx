@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { cssVarTokens, darkTokens, lightTokens, ThemeMode, ThemeTokens } from './tokens';
+import { darkTokens, lightTokens, ThemeMode, ThemeTokens } from './tokens';
 
 const STORAGE_KEY = 'ev-charge-theme';
 
@@ -9,15 +9,11 @@ interface ThemeContextValue {
   isDark: boolean;
   setMode: (nextMode: ThemeMode) => void;
   toggleTheme: () => void;
-  mounted: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-function readClientThemeMode(): ThemeMode {
-  if (typeof window === 'undefined') {
-    return 'light';
-  }
+function getInitialThemeMode(): ThemeMode {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === 'light' || stored === 'dark') {
@@ -33,7 +29,6 @@ function readClientThemeMode(): ThemeMode {
 }
 
 function applyThemeToDocument(mode: ThemeMode) {
-  if (typeof document === 'undefined') return;
   const root = document.documentElement;
   const activeTokens = mode === 'dark' ? darkTokens : lightTokens;
 
@@ -48,30 +43,24 @@ function applyThemeToDocument(mode: ThemeMode) {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Always start deterministic on SSR & initial hydration pass to prevent mismatch errors
-  const [mode, setModeState] = useState<ThemeMode>('light');
-  const [mounted, setMounted] = useState(false);
+  const [mode, setModeState] = useState<ThemeMode>(getInitialThemeMode);
 
   useEffect(() => {
-    const initialClientMode = readClientThemeMode();
-    setModeState(initialClientMode);
-    applyThemeToDocument(initialClientMode);
-    setMounted(true);
+    applyThemeToDocument(mode);
+  }, [mode]);
 
+  useEffect(() => {
     if (!window.matchMedia) return;
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
     const handleSystemChange = (event: MediaQueryListEvent) => {
       try {
         const stored = window.localStorage.getItem(STORAGE_KEY);
         if (stored !== 'light' && stored !== 'dark') {
-          const nextMode: ThemeMode = event.matches ? 'dark' : 'light';
-          setModeState(nextMode);
-          applyThemeToDocument(nextMode);
+          setModeState(event.matches ? 'dark' : 'light');
         }
       } catch {
-        const nextMode: ThemeMode = event.matches ? 'dark' : 'light';
-        setModeState(nextMode);
-        applyThemeToDocument(nextMode);
+        setModeState(event.matches ? 'dark' : 'light');
       }
     };
 
@@ -94,25 +83,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [mode, setMode]);
 
   const value = useMemo<ThemeContextValue>(() => {
-    const activeConcreteTokens = mode === 'dark' ? darkTokens : lightTokens;
-    const tokens: ThemeTokens = {
-      ...cssVarTokens,
-      mode: mounted ? mode : 'light',
-      shadows: {
-        ...cssVarTokens.shadows,
-        featuredPulseFrom: activeConcreteTokens.shadows.featuredPulseFrom,
-        featuredPulseTo: activeConcreteTokens.shadows.featuredPulseTo,
-      },
-    };
+    const tokens = mode === 'dark' ? darkTokens : lightTokens;
     return {
-      mode: mounted ? mode : 'light',
+      mode,
       tokens,
-      isDark: mounted && mode === 'dark',
+      isDark: mode === 'dark',
       setMode,
       toggleTheme,
-      mounted,
     };
-  }, [mode, setMode, toggleTheme, mounted]);
+  }, [mode, setMode, toggleTheme]);
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }

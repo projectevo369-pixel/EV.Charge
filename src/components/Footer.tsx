@@ -1,21 +1,15 @@
+import { Link } from 'react-router-dom';
 import { Smartphone, Store, Zap } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { useTheme } from '../theme/ThemeProvider';
-import { AppRoute } from './Navbar';
 
 interface FooterProps {
-  onNavigate: (route: AppRoute) => void;
   onOpenDownload: (platform?: string) => void;
 }
 
-export function Footer({ onNavigate, onOpenDownload }: FooterProps) {
+export function Footer({ onOpenDownload }: FooterProps) {
   const { tokens } = useTheme();
   const shouldReduceMotion = useReducedMotion();
-
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, route: AppRoute) => {
-    e.preventDefault();
-    onNavigate(route);
-  };
 
   return (
     <footer
@@ -28,7 +22,7 @@ export function Footer({ onNavigate, onOpenDownload }: FooterProps) {
     >
       <div className="max-w-[1200px] mx-auto px-5 sm:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         <div className="flex flex-col gap-2">
-          <div className="inline-flex items-center gap-2.5">
+          <Link to="/" className="inline-flex items-center gap-2.5 w-fit">
             <span
               style={{
                 backgroundColor: tokens.colors.iconBadgeBg,
@@ -45,7 +39,7 @@ export function Footer({ onNavigate, onOpenDownload }: FooterProps) {
             >
               ev.charge
             </span>
-          </div>
+          </Link>
           <p style={{ color: tokens.colors.textSecondary }} className="text-sm sm:text-[15px]">
             Powering India&apos;s electric commute.
           </p>
@@ -55,9 +49,8 @@ export function Footer({ onNavigate, onOpenDownload }: FooterProps) {
         </div>
 
         <nav aria-label="Legal" className="flex flex-wrap items-center gap-6">
-          <a
-            href="/privacy"
-            onClick={(e) => handleLinkClick(e, '/privacy')}
+          <Link
+            to="/privacy"
             style={{ color: tokens.colors.textSecondary }}
             className="text-sm font-semibold hover:underline underline-offset-4 transition-colors"
             onMouseEnter={(e) => {
@@ -68,10 +61,9 @@ export function Footer({ onNavigate, onOpenDownload }: FooterProps) {
             }}
           >
             Privacy Policy
-          </a>
-          <a
-            href="/terms"
-            onClick={(e) => handleLinkClick(e, '/terms')}
+          </Link>
+          <Link
+            to="/terms"
             style={{ color: tokens.colors.textSecondary }}
             className="text-sm font-semibold hover:underline underline-offset-4 transition-colors"
             onMouseEnter={(e) => {
@@ -82,10 +74,9 @@ export function Footer({ onNavigate, onOpenDownload }: FooterProps) {
             }}
           >
             Terms of Service
-          </a>
-          <a
-            href="/refund"
-            onClick={(e) => handleLinkClick(e, '/refund')}
+          </Link>
+          <Link
+            to="/refund"
             style={{ color: tokens.colors.textSecondary }}
             className="text-sm font-semibold hover:underline underline-offset-4 transition-colors"
             onMouseEnter={(e) => {
@@ -96,7 +87,7 @@ export function Footer({ onNavigate, onOpenDownload }: FooterProps) {
             }}
           >
             Refund Policy
-          </a>
+          </Link>
         </nav>
 
         <div className="flex flex-wrap items-center gap-3">
