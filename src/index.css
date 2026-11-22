@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --ev-bg: #FFFFFF;
+  --ev-bg-alt: #F6F8F7;
+  --ev-accent: #0FA968;
+  --ev-on-accent: #FFFFFF;
+  --ev-text-primary: #0F172A;
+  --ev-text-secondary: #5B6B69;
+  --ev-card-bg: #FFFFFF;
+  --ev-card-border: #E6ECEA;
+  --ev-icon-badge-bg: #E6F8F0;
+  --ev-ring-track: #E6F8F0;
+}
+
+.dark {
+  --ev-bg: #0A0E0F;
+  --ev-bg-alt: #14191A;
+  --ev-accent: #C6FF3D;
+  --ev-on-accent: #0A0E0F;
+  --ev-text-primary: #F5F7F6;
+  --ev-text-secondary: #8A9594;
+  --ev-card-bg: #14191A;
+  --ev-card-border: rgba(255, 255, 255, 0.09);
+  --ev-icon-badge-bg: #1B2224;
+  --ev-ring-track: #1E2527;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  background-color: var(--ev-bg);
+  color: var(--ev-text-primary);
+}
+
+body {
+  background-color: var(--ev-bg);
+  color: var(--ev-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 280ms ease, color 280ms ease;
+}
+
+.theme-transition {
+  transition-property: background-color, border-color, color, box-shadow, fill, stroke;
+  transition-duration: 280ms;
+  transition-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  body,
+  .theme-transition {
+    transition-duration: 0ms !important;
+  }
+}
+
+.font-display {
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+}
+
+.font-mono-tabular {
+  font-family: "Spline Sans Mono", ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
+}

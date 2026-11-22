@@ -1,0 +1,737 @@
+<!DOCTYPE html><html lang="en" class="dark scroll-smooth"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ev.charge — Effortless EV Charging Across India</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'electric-lime': '#C6FF3D',
+        'near-black': '#0A0E0F',
+        'dark-surface': '#14191A',
+        'primary': '#C6FF3D',
+        'on-primary': '#0A0E0F',
+        'primary-container': '#263500',
+        'on-primary-container': '#D7FF81',
+        'surface': '#0A0E0F',
+        'on-surface': '#FAFDFE',
+        'surface-container-low': '#101415',
+        'surface-container': '#14191A',
+        'surface-container-high': '#181C1D',
+        'surface-container-highest': '#2D3132',
+        'on-surface-variant': '#A8ACAD',
+        'outline': '#2D3132',
+        'outline-variant': '#2D3320',
+        'error': '#FF5449',
+        'on-error': '#0A0E0F',
+        'success': '#C6FF3D',
+        'on-success': '#0A0E0F',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '16px',
+        'lg': '20px',
+        'xl': '24px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section-md': '64px',
+        'section-lg': '96px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'headline': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'title': ['"Instrument Sans"', 'sans-serif'],
+        'body': ['"Instrument Sans"', 'sans-serif'],
+        'label': ['"Instrument Sans"', 'sans-serif'],
+        'mono': ['"Spline Sans Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-xl': ['64px', { lineHeight: '70px', letterSpacing: '-1.5px', fontWeight: '800' }],
+        'display-xl-mobile': ['32px', { lineHeight: '38px', letterSpacing: '-0.75px', fontWeight: '800' }],
+        'display-lg': ['48px', { lineHeight: '56px', letterSpacing: '-1px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'headline-lg': ['36px', { lineHeight: '44px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'headline-lg-mobile': ['24px', { lineHeight: '30px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-md': ['24px', { lineHeight: '32px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'title-lg': ['20px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['18px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['15px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0.1px', fontWeight: '600' }],
+        'label-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '500' }],
+        'mono-md': ['13px', { lineHeight: '18px', letterSpacing: '0.5px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '150ms',
+        'surface-enter': '300ms',
+        'glow-pulse': '2400ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'glow-pulse': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'glow-pulse': 'ease-in-out',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Spline+Sans+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+    .ambient-bg {
+      background-image:
+        radial-gradient(circle at 75% 18%, rgba(198, 255, 61, 0.09) 0%, rgba(10, 14, 15, 0) 45%),
+        radial-gradient(circle at 20% 60%, rgba(198, 255, 61, 0.04) 0%, rgba(10, 14, 15, 0) 50%);
+    }
+    .lime-glow-soft {
+      box-shadow: 0 0 48px rgba(198, 255, 61, 0.16);
+    }
+    .lime-glow-btn {
+      box-shadow: 0 0 28px rgba(198, 255, 61, 0.35);
+    }
+    .lime-glow-btn:hover {
+      box-shadow: 0 0 38px rgba(198, 255, 61, 0.55);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-on-primary">
+  <div class="min-h-[1024px] flex flex-col ambient-bg overflow-x-hidden" data-stitch-vh="min-h-[1024px]===min-h-screen">
+
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-40 border-b border-outline/60 bg-surface/90">
+      <div class="max-w-[1200px] mx-auto px-page-margin py-4 flex items-center justify-between gap-gutter-md">
+        <a href="#" class="inline-flex items-center gap-gutter-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary rounded-sm shrink-0">
+          <span class="w-9 h-9 rounded-full bg-surface-container border border-primary/40 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bolt</span>
+          </span>
+          <span class="font-display text-title-lg text-on-surface tracking-tight" data-design-text-token="title-lg">ev.charge</span>
+        </a>
+
+        <nav aria-label="Primary" class="hidden md:flex items-center gap-gutter-xl">
+          <a href="#features" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">
+            <span data-design-text-token="label-lg">Features</span>
+          </a>
+          <a href="#how-it-works" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">
+            <span data-design-text-token="label-lg">How It Works</span>
+          </a>
+          <a href="#app-showcase" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">
+            <span data-design-text-token="label-lg">App</span>
+          </a>
+          <a href="#plans" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">
+            <span data-design-text-token="label-lg">Plans</span>
+          </a>
+        </nav>
+
+        <div class="flex items-center gap-gutter-sm shrink-0">
+          <!-- COMPONENT: button-primary -->
+          <a href="#download" data-component-id="button-primary" data-component-type="button" data-component-variant="primary" class="hidden sm:inline-flex items-center justify-center gap-gutter-sm px-5 py-2.5 rounded-full bg-primary text-on-primary lime-glow-btn hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-[transform,box-shadow] duration-state-change ease-state-change">
+            <span class="font-label text-label-lg" data-design-text-token="label-lg">Download the App</span>
+          </a>
+
+          <button id="mobile-menu-btn" data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Toggle navigation menu" aria-expanded="false" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container border border-outline text-on-surface hover:border-primary/50">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">menu</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Nav Drawer -->
+      <div id="mobile-menu" class="hidden md:hidden border-t border-outline/60 bg-surface-container-low px-page-margin py-4">
+        <div class="flex flex-col gap-gutter-md">
+          <a href="#features" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface py-1" data-design-text-token="label-lg">Features</a>
+          <a href="#how-it-works" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface py-1" data-design-text-token="label-lg">How It Works</a>
+          <a href="#app-showcase" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface py-1" data-design-text-token="label-lg">App</a>
+          <a href="#plans" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface py-1" data-design-text-token="label-lg">Plans</a>
+          <a href="#download" class="font-label text-label-lg text-primary py-1" data-design-text-token="label-lg">Download the App</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1">
+
+      <!-- 1. Hero Section -->
+      <section class="py-section-md md:py-section-lg">
+        <div class="max-w-[1200px] mx-auto px-page-margin grid grid-cols-1 lg:grid-cols-12 gap-gutter-xl items-center">
+          <div class="lg:col-span-7 flex flex-col items-start gap-gutter-lg">
+            <div class="inline-flex items-center gap-gutter-sm px-3.5 py-1.5 rounded-full bg-surface-container border border-outline">
+              <span data-component-id="badge-dot" data-component-type="badge" data-component-variant="dot" role="status" aria-label="Live network" class="inline-block w-2 h-2 rounded-full bg-primary"></span>
+              <span class="font-mono text-mono-md text-on-surface-variant" data-design-text-token="mono-md">INDIA&#39;S FAST-CHARGING NETWORK</span>
+            </div>
+
+            <h1 data-component-id="typography-display" data-component-type="typography" data-component-variant="display" data-design-text-token="display-xl" class="font-display text-display-xl-mobile md:text-display-xl text-on-surface text-balance">
+              Effortless EV charging, built for <span class="text-primary">India.</span>
+            </h1>
+
+            <p data-component-id="typography-body" data-component-type="typography" data-component-variant="body" data-design-text-token="body-lg" class="font-body text-body-lg text-on-surface-variant text-pretty max-w-prose">
+              Locate live DC fast chargers across cities and expressways, reserve your bay in seconds, and pay seamlessly via UPI.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-gutter-md pt-2">
+              <!-- COMPONENT: button-with-icon -->
+              <a href="#download" data-component-id="button-with-icon" data-component-type="button" data-component-variant="with-icon" class="inline-flex items-center justify-center gap-gutter-sm px-gutter-lg py-3.5 rounded-full bg-primary text-on-primary lime-glow-btn hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-[transform,box-shadow] duration-state-change ease-state-change">
+                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bolt</span>
+                <span class="font-label text-label-lg" data-design-text-token="label-lg">Download the App</span>
+              </a>
+
+              <!-- COMPONENT: button-secondary -->
+              <a href="#plans" data-component-id="button-secondary" data-component-type="button" data-component-variant="secondary" class="inline-flex items-center justify-center gap-gutter-sm px-gutter-lg py-3.5 rounded-full bg-surface-container border border-outline text-on-surface hover:border-primary/50 hover:bg-surface-container-high focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-[border-color,background-color] duration-state-change ease-state-change">
+                <span class="font-label text-label-lg" data-design-text-token="label-lg">See Plans</span>
+                <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Hero Glowing Charge-Percentage Graphic -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-full max-w-[380px] rounded-xl bg-surface-container border border-outline/80 p-gutter-xl flex flex-col items-center justify-center lime-glow-soft">
+              <div class="w-full flex items-center justify-between mb-4">
+                <span class="font-mono text-mono-md text-on-surface-variant" data-design-text-token="mono-md">CCS2 · 120 kW</span>
+                <span class="inline-flex items-center gap-1.5 font-label text-label-sm text-primary" data-design-text-token="label-sm">
+                  <span class="w-2 h-2 rounded-full bg-primary"></span>
+                  Charging
+                </span>
+              </div>
+
+              <!-- Glowing Circular Ring -->
+              <div class="relative w-52 h-52 flex items-center justify-center">
+                <svg class="w-full h-full -rotate-90" viewBox="0 0 200 200" aria-hidden="true">
+                  <circle cx="100" cy="100" r="84" fill="none" stroke="#181C1D" stroke-width="12"></circle>
+                  <circle cx="100" cy="100" r="84" fill="none" stroke="#C6FF3D" stroke-width="12" stroke-linecap="round" stroke-dasharray="527.8" stroke-dashoffset="84.4"></circle>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                  <span class="material-symbols-outlined text-[24px] text-primary mb-1" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bolt</span>
+                  <span class="font-display text-display-lg-mobile md:text-display-lg text-on-surface tabular-nums" data-design-text-token="display-lg">84%</span>
+                  <span class="font-label text-label-sm text-on-surface-variant" data-design-text-token="label-sm">+310 km range</span>
+                </div>
+              </div>
+
+              <!-- Bottom session bar -->
+              <div class="w-full mt-6 pt-4 border-t border-outline/60 grid grid-cols-3 gap-gutter-sm text-center">
+                <div>
+                  <p class="font-label text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Power</p>
+                  <p class="font-mono text-mono-md text-primary tabular-nums" data-design-text-token="mono-md">118 kW</p>
+                </div>
+                <div>
+                  <p class="font-label text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Added</p>
+                  <p class="font-mono text-mono-md text-on-surface tabular-nums" data-design-text-token="mono-md">44.2 kWh</p>
+                </div>
+                <div>
+                  <p class="font-label text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Time Left</p>
+                  <p class="font-mono text-mono-md text-on-surface tabular-nums" data-design-text-token="mono-md">11 min</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Features Section -->
+      <section id="features" class="py-section-md border-t border-outline/40">
+        <div class="max-w-[1200px] mx-auto px-page-margin flex flex-col gap-gutter-xl">
+          <div class="flex flex-col gap-gutter-sm max-w-2xl">
+            <h2 class="font-headline text-headline-lg-mobile md:text-headline-lg text-on-surface text-balance" data-design-text-token="headline-lg">
+              Built for zero-anxiety charging.
+            </h2>
+            <p class="font-body text-body-lg text-on-surface-variant text-pretty" data-design-text-token="body-lg">
+              Every station on ev.charge is verified live, so you never arrive at an offline or occupied bay.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter-lg items-stretch">
+            <!-- Feature 1 -->
+            <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="h-full flex flex-col gap-gutter-md p-gutter-lg rounded-xl bg-surface-container border border-outline/80 hover:border-primary/40 transition-[border-color] duration-state-change ease-state-change">
+              <header class="flex items-center gap-gutter-md">
+                <div class="w-11 h-11 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-primary shrink-0">
+                  <span class="material-symbols-outlined text-[22px]" aria-hidden="true">ev_station</span>
+                </div>
+                <h3 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">Live Availability</h3>
+              </header>
+              <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">
+                Real-time connector status, kW output, and queue wait times updated every 10 seconds.
+              </p>
+            </article>
+
+            <!-- Feature 2 -->
+            <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="h-full flex flex-col gap-gutter-md p-gutter-lg rounded-xl bg-surface-container border border-outline/80 hover:border-primary/40 transition-[border-color] duration-state-change ease-state-change">
+              <header class="flex items-center gap-gutter-md">
+                <div class="w-11 h-11 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-primary shrink-0">
+                  <span class="material-symbols-outlined text-[22px]" aria-hidden="true">event_available</span>
+                </div>
+                <h3 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">Easy Booking</h3>
+              </header>
+              <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">
+                Reserve your preferred fast-charging bay up to 30 minutes ahead with one tap.
+              </p>
+            </article>
+
+            <!-- Feature 3 -->
+            <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="h-full flex flex-col gap-gutter-md p-gutter-lg rounded-xl bg-surface-container border border-outline/80 hover:border-primary/40 transition-[border-color] duration-state-change ease-state-change">
+              <header class="flex items-center gap-gutter-md">
+                <div class="w-11 h-11 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-primary shrink-0">
+                  <span class="material-symbols-outlined text-[22px]" aria-hidden="true">payments</span>
+                </div>
+                <h3 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">Instant Pay</h3>
+              </header>
+              <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">
+                Automatic checkout via UPI AutoPay, RuPay, or cards with instant GST invoices.
+              </p>
+            </article>
+
+            <!-- Feature 4 -->
+            <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="h-full flex flex-col gap-gutter-md p-gutter-lg rounded-xl bg-surface-container border border-outline/80 hover:border-primary/40 transition-[border-color] duration-state-change ease-state-change">
+              <header class="flex items-center gap-gutter-md">
+                <div class="w-11 h-11 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-primary shrink-0">
+                  <span class="material-symbols-outlined text-[22px]" aria-hidden="true">autorenew</span>
+                </div>
+                <h3 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">Monthly Plans</h3>
+              </header>
+              <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">
+                Lock in lower per-kWh rates with flexible monthly energy packs for daily commutes.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. How It Works Section -->
+      <section id="how-it-works" class="py-section-md border-t border-outline/40">
+        <div class="max-w-[1200px] mx-auto px-page-margin flex flex-col gap-gutter-xl">
+          <div class="flex flex-col gap-gutter-sm max-w-2xl">
+            <h2 class="font-headline text-headline-lg-mobile md:text-headline-lg text-on-surface text-balance" data-design-text-token="headline-lg">
+              Plug in and power up in four steps.
+            </h2>
+            <p class="font-body text-body-lg text-on-surface-variant text-pretty" data-design-text-token="body-lg">
+              From finding the nearest hub to driving away charged, everything happens in one app.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter-lg items-stretch">
+            <!-- Step 1 -->
+            <div class="h-full flex flex-col gap-gutter-md p-gutter-lg rounded-xl bg-surface-container border border-outline/80">
+              <div class="flex items-center justify-between">
+                <span data-component-id="badge-numeric" data-component-type="badge" data-component-variant="numeric" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-surface-container-high border border-primary/40 text-primary">
+                  <span class="font-mono text-mono-md tabular-nums" data-design-text-token="mono-md">01</span>
+                </span>
+                <span class="w-10 h-10 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[20px]" aria-hidden="true">location_on</span>
+                </span>
+              </div>
+              <h3 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">Find Station</h3>
+              <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">
+                Filter nearby hubs by CCS2 or Type 2 connector, charging speed, and live bay status.
+              </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="h-full flex flex-col gap-gutter-md p-gutter-lg rounded-xl bg-surface-container border border-outline/80">
+              <div class="flex items-center justify-between">
+                <span data-component-id="badge-numeric" data-component-type="badge" data-component-variant="numeric" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-surface-container-high border border-primary/40 text-primary">
+                  <span class="font-mono text-mono-md tabular-nums" data-design-text-token="mono-md">02</span>
+                </span>
+                <span class="w-10 h-10 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[20px]" aria-hidden="true">bookmark_added</span>
+                </span>
+              </div>
+              <h3 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">Book Your Bay</h3>
+              <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">
+                Hold a charger slot while you drive so your bay is waiting when you pull in.
+              </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="h-full flex flex-col gap-gutter-md p-gutter-lg rounded-xl bg-surface-container border border-outline/80">
+              <div class="flex items-center justify-between">
+                <span data-component-id="badge-numeric" data-component-type="badge" data-component-variant="numeric" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-surface-container-high border border-primary/40 text-primary">
+                  <span class="font-mono text-mono-md tabular-nums" data-design-text-token="mono-md">03</span>
+                </span>
+                <span class="w-10 h-10 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[20px]" aria-hidden="true">bolt</span>
+                </span>
+              </div>
+              <h3 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">Scan &amp; Charge</h3>
+              <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">
+                Scan the station QR code, plug in your EV, and track live kWh delivery on your phone.
+              </p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="h-full flex flex-col gap-gutter-md p-gutter-lg rounded-xl bg-surface-container border border-outline/80">
+              <div class="flex items-center justify-between">
+                <span data-component-id="badge-numeric" data-component-type="badge" data-component-variant="numeric" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-surface-container-high border border-primary/40 text-primary">
+                  <span class="font-mono text-mono-md tabular-nums" data-design-text-token="mono-md">04</span>
+                </span>
+                <span class="w-10 h-10 rounded-full bg-surface-container-high border border-outline flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[20px]" aria-hidden="true">qr_code_2</span>
+                </span>
+              </div>
+              <h3 class="font-headline text-title-lg text-on-surface" data-design-text-token="title-lg">Auto Pay</h3>
+              <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">
+                Unplug and drive off—your session settles automatically via UPI or your monthly plan.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. App Showcase Section -->
+      <section id="app-showcase" class="py-section-lg border-t border-outline/40">
+        <div class="max-w-[1200px] mx-auto px-page-margin flex flex-col gap-gutter-xl items-center">
+          <div class="text-center flex flex-col gap-gutter-sm max-w-2xl">
+            <h2 class="font-headline text-headline-lg-mobile md:text-headline-lg text-on-surface text-balance" data-design-text-token="headline-lg">
+              Designed for the driver&#39;s seat.
+            </h2>
+            <p class="font-body text-body-lg text-on-surface-variant text-pretty" data-design-text-token="body-lg">
+              Dark-mode clarity that matches your cockpit—from live station discovery to instant UPI receipts.
+            </p>
+          </div>
+
+          <!-- 3 Floating Phone Mockups -->
+          <div class="relative w-full pt-8 pb-6 flex flex-col lg:flex-row items-center justify-center gap-gutter-xl">
+            <!-- Soft radial glow behind the phones -->
+            <div class="hidden lg:block absolute inset-x-1/4 top-1/4 h-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+            <!-- Phone 1: Map Screen -->
+            <div class="w-[270px] rounded-xl bg-surface-container border border-outline p-4 flex flex-col gap-gutter-md lg:-rotate-3 lime-glow-soft">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-mono-md text-on-surface-variant" data-design-text-token="mono-md">BENGALURU</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-surface-container-high border border-primary/40 font-label text-label-sm text-primary" data-design-text-token="label-sm">12 Nearby</span>
+              </div>
+
+              <!-- Stylized dark map canvas -->
+              <div class="relative h-44 rounded-lg bg-surface-container-low border border-outline/60 overflow-hidden p-3">
+                <svg class="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 240 176" aria-hidden="true">
+                  <path d="M0 44 H240 M0 88 H240 M0 132 H240 M60 0 V176 M120 0 V176 M180 0 V176" stroke="#2D3132" stroke-width="1"></path>
+                  <path d="M20 150 Q110 90 210 30" stroke="#C6FF3D" stroke-width="2" fill="none" stroke-dasharray="4 4"></path>
+                </svg>
+                <div class="relative z-10 flex flex-col justify-between h-full">
+                  <div class="self-end flex items-center gap-1 px-2 py-1 rounded-full bg-primary text-on-primary">
+                    <span class="material-symbols-outlined text-[14px]" aria-hidden="true">bolt</span>
+                    <span class="font-mono text-label-sm tabular-nums" data-design-text-token="label-sm">120 kW</span>
+                  </div>
+                  <div class="self-start flex items-center gap-1 px-2 py-1 rounded-full bg-surface-container border border-primary/60 text-primary">
+                    <span class="material-symbols-outlined text-[14px]" aria-hidden="true">ev_station</span>
+                    <span class="font-mono text-label-sm tabular-nums" data-design-text-token="label-sm">60 kW</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-surface-container-high border border-outline/80 flex flex-col gap-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-headline text-title-md text-on-surface" data-design-text-token="title-md">Indiranagar Hub</span>
+                  <span class="font-mono text-label-sm text-primary tabular-nums" data-design-text-token="label-sm">1.4 km</span>
+                </div>
+                <span class="font-body text-label-sm text-on-surface-variant" data-design-text-token="label-sm">4 of 6 bays free · CCS2 Fast</span>
+              </div>
+            </div>
+
+            <!-- Phone 2: Charging Screen with Glowing Ring (Center, Elevated) -->
+            <div class="w-[285px] rounded-xl bg-surface-container border border-primary/60 p-5 flex flex-col items-center gap-gutter-md lg:-translate-y-4 lime-glow-soft">
+              <div class="w-full flex items-center justify-between">
+                <span class="font-mono text-mono-md text-on-surface-variant" data-design-text-token="mono-md">BAY #04</span>
+                <span class="inline-flex items-center gap-1.5 font-label text-label-sm text-primary" data-design-text-token="label-sm">
+                  <span class="w-2 h-2 rounded-full bg-primary"></span>
+                  Active
+                </span>
+              </div>
+
+              <div class="relative w-40 h-40 flex items-center justify-center my-2">
+                <svg class="w-full h-full -rotate-90" viewBox="0 0 160 160" aria-hidden="true">
+                  <circle cx="80" cy="80" r="66" fill="none" stroke="#181C1D" stroke-width="10"></circle>
+                  <circle cx="80" cy="80" r="66" fill="none" stroke="#C6FF3D" stroke-width="10" stroke-linecap="round" stroke-dasharray="414.7" stroke-dashoffset="91.2"></circle>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                  <span class="font-display text-headline-md text-on-surface tabular-nums" data-design-text-token="headline-md">78%</span>
+                  <span class="font-mono text-label-sm text-primary tabular-nums" data-design-text-token="label-sm">118 kW</span>
+                </div>
+              </div>
+
+              <div class="w-full grid grid-cols-2 gap-gutter-sm">
+                <div class="p-3 rounded-lg bg-surface-container-high border border-outline/60">
+                  <p class="font-label text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Energy</p>
+                  <p class="font-mono text-title-md text-on-surface tabular-nums" data-design-text-token="title-md">42.6 kWh</p>
+                </div>
+                <div class="p-3 rounded-lg bg-surface-container-high border border-outline/60">
+                  <p class="font-label text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Est. Cost</p>
+                  <p class="font-mono text-title-md text-primary tabular-nums" data-design-text-token="title-md">₹512</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phone 3: Payment Screen -->
+            <div class="w-[270px] rounded-xl bg-surface-container border border-outline p-4 flex flex-col gap-gutter-md lg:rotate-3 lime-glow-soft">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-mono-md text-on-surface-variant" data-design-text-token="mono-md">RECEIPT</span>
+                <span class="font-label text-label-sm text-primary" data-design-text-token="label-sm">UPI AutoPay</span>
+              </div>
+
+              <div class="py-4 flex flex-col items-center text-center gap-gutter-sm border-b border-outline/60">
+                <span class="w-12 h-12 rounded-full bg-primary/15 border border-primary/50 flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[24px]" aria-hidden="true">check</span>
+                </span>
+                <span class="font-display text-headline-md text-on-surface tabular-nums" data-design-text-token="headline-md">₹512.00</span>
+                <span class="font-body text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Paid seamlessly via UPI</span>
+              </div>
+
+              <div class="flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between">
+                  <span class="font-body text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Energy Delivered</span>
+                  <span class="font-mono text-label-sm text-on-surface tabular-nums" data-design-text-token="label-sm">42.6 kWh</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-body text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Tariff (Plus Plan)</span>
+                  <span class="font-mono text-label-sm text-primary tabular-nums" data-design-text-token="label-sm">₹12.00/kWh</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-body text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Session Time</span>
+                  <span class="font-mono text-label-sm text-on-surface tabular-nums" data-design-text-token="label-sm">24m 18s</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Pricing / Plans Section -->
+      <section id="plans" class="py-section-md border-t border-outline/40">
+        <div class="max-w-[1200px] mx-auto px-page-margin flex flex-col gap-gutter-xl">
+          <div class="text-center flex flex-col items-center gap-gutter-sm max-w-2xl mx-auto">
+            <h2 class="font-headline text-headline-lg-mobile md:text-headline-lg text-on-surface text-balance" data-design-text-token="headline-lg">
+              Simple plans for every kind of driver.
+            </h2>
+            <p class="font-body text-body-lg text-on-surface-variant text-pretty" data-design-text-token="body-lg">
+              Start free with pay-as-you-go, or save up to 35% per kWh with a monthly energy pass.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter-lg items-stretch">
+            <!-- Plan 1: Basic -->
+            <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="h-full flex flex-col justify-between gap-gutter-lg p-gutter-xl rounded-xl bg-surface-container border border-outline/80">
+              <div class="flex flex-col gap-gutter-md">
+                <header class="flex flex-col gap-gutter-xs">
+                  <h3 class="font-headline text-headline-md text-on-surface" data-design-text-token="headline-md">Basic</h3>
+                  <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">Pay only when you plug in, with zero monthly commitment.</p>
+                </header>
+                <div class="flex items-baseline gap-gutter-xs py-2">
+                  <span class="font-display text-display-lg-mobile md:text-display-lg text-on-surface tabular-nums" data-design-text-token="display-lg">₹0</span>
+                  <span class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">/ month</span>
+                </div>
+                <ul class="flex flex-col gap-gutter-sm border-t border-outline/60 pt-4">
+                  <li class="flex items-center gap-gutter-sm font-body text-body-md text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">check_circle</span>
+                    <span data-design-text-token="body-md">Standard ₹16/kWh fast-charge rate</span>
+                  </li>
+                  <li class="flex items-center gap-gutter-sm font-body text-body-md text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">check_circle</span>
+                    <span data-design-text-token="body-md">Live station availability map</span>
+                  </li>
+                  <li class="flex items-center gap-gutter-sm font-body text-body-md text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">check_circle</span>
+                    <span data-design-text-token="body-md">Instant UPI &amp; card checkout</span>
+                  </li>
+                </ul>
+              </div>
+              <footer>
+                <a href="#download" class="w-full inline-flex items-center justify-center px-gutter-lg py-3 rounded-full bg-surface-container-high border border-outline text-on-surface hover:border-primary/50 font-label text-label-lg transition-[border-color] duration-state-change">
+                  <span data-design-text-token="label-lg">Start with Basic</span>
+                </a>
+              </footer>
+            </article>
+
+            <!-- Plan 2: Plus (Most Popular) -->
+            <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="h-full flex flex-col justify-between gap-gutter-lg p-gutter-xl rounded-xl bg-surface-container border border-primary/80 lime-glow-soft">
+              <div class="flex flex-col gap-gutter-md">
+                <header class="flex flex-col gap-gutter-sm">
+                  <span data-component-id="badge-status" data-component-type="badge" data-component-variant="status" class="self-start px-3 py-1 rounded-full bg-primary text-on-primary font-label text-label-sm" data-design-text-token="label-sm">Most Popular</span>
+                  <h3 class="font-headline text-headline-md text-on-surface" data-design-text-token="headline-md">Plus</h3>
+                  <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">Built for daily city commuters and weekend highway drives.</p>
+                </header>
+                <div class="flex items-baseline gap-gutter-xs py-2">
+                  <span class="font-display text-display-lg-mobile md:text-display-lg text-primary tabular-nums" data-design-text-token="display-lg">₹499</span>
+                  <span class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">/ month</span>
+                </div>
+                <ul class="flex flex-col gap-gutter-sm border-t border-outline/60 pt-4">
+                  <li class="flex items-center gap-gutter-sm font-body text-body-md text-on-surface">
+                    <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">check_circle</span>
+                    <span data-design-text-token="body-md">50 kWh included, then ₹10/kWh</span>
+                  </li>
+                  <li class="flex items-center gap-gutter-sm font-body text-body-md text-on-surface">
+                    <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">check_circle</span>
+                    <span data-design-text-token="body-md">30-minute priority bay booking</span>
+                  </li>
+                  <li class="flex items-center gap-gutter-sm font-body text-body-md text-on-surface">
+                    <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">check_circle</span>
+                    <span data-design-text-token="body-md">24/7 highway roadside support</span>
+                  </li>
+                </ul>
+              </div>
+              <footer>
+                <a href="#download" class="w-full inline-flex items-center justify-center px-gutter-lg py-3 rounded-full bg-primary text-on-primary lime-glow-btn hover:scale-[1.02] font-label text-label-lg transition-transform duration-state-change">
+                  <span data-design-text-token="label-lg">Choose Plus</span>
+                </a>
+              </footer>
+            </article>
+
+            <!-- Plan 3: Pro -->
+            <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="h-full flex flex-col justify-between gap-gutter-lg p-gutter-xl rounded-xl bg-surface-container border border-outline/80">
+              <div class="flex flex-col gap-gutter-md">
+                <header class="flex flex-col gap-gutter-xs">
+                  <h3 class="font-headline text-headline-md text-on-surface" data-design-text-token="headline-md">Pro</h3>
+                  <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">For high-mileage EV drivers, families, and commercial fleets.</p>
+                </header>
+                <div class="flex items-baseline gap-gutter-xs py-2">
+                  <span class="font-display text-display-lg-mobile md:text-display-lg text-on-surface tabular-nums" data-design-text-token="display-lg">₹1,499</span>
+                  <span class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">/ month</span>
+                </div>
+                <ul class="flex flex-col gap-gutter-sm border-t border-outline/60 pt-4">
+                  <li class="flex items-center gap-gutter-sm font-body text-body-md text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">check_circle</span>
+                    <span data-design-text-token="body-md">180 kWh included, then ₹8.50/kWh</span>
+                  </li>
+                  <li class="flex items-center gap-gutter-sm font-body text-body-md text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">check_circle</span>
+                    <span data-design-text-token="body-md">Zero booking or idle fees</span>
+                  </li>
+                  <li class="flex items-center gap-gutter-sm font-body text-body-md text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">check_circle</span>
+                    <span data-design-text-token="body-md">Up to 3 vehicles on one pass</span>
+                  </li>
+                </ul>
+              </div>
+              <footer>
+                <a href="#download" class="w-full inline-flex items-center justify-center px-gutter-lg py-3 rounded-full bg-surface-container-high border border-outline text-on-surface hover:border-primary/50 font-label text-label-lg transition-[border-color] duration-state-change">
+                  <span data-design-text-token="label-lg">Choose Pro</span>
+                </a>
+              </footer>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Stats Section -->
+      <section class="py-section-md border-t border-outline/40">
+        <div class="max-w-[1200px] mx-auto px-page-margin">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter-lg items-stretch">
+            <div class="h-full p-gutter-lg rounded-xl bg-surface-container border border-outline/80 flex flex-col gap-gutter-xs">
+              <span class="font-display text-display-lg-mobile md:text-display-lg text-primary tabular-nums" data-design-text-token="display-lg">500+</span>
+              <span class="font-label text-label-lg text-on-surface" data-design-text-token="label-lg">Charging Points</span>
+              <span class="font-body text-label-sm text-on-surface-variant" data-design-text-token="label-sm">High-speed CCS2 &amp; Type 2</span>
+            </div>
+
+            <div class="h-full p-gutter-lg rounded-xl bg-surface-container border border-outline/80 flex flex-col gap-gutter-xs">
+              <span class="font-display text-display-lg-mobile md:text-display-lg text-primary tabular-nums" data-design-text-token="display-lg">10,000+</span>
+              <span class="font-label text-label-lg text-on-surface" data-design-text-token="label-lg">Happy Drivers</span>
+              <span class="font-body text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Charging weekly across India</span>
+            </div>
+
+            <div class="h-full p-gutter-lg rounded-xl bg-surface-container border border-outline/80 flex flex-col gap-gutter-xs">
+              <span class="font-display text-display-lg-mobile md:text-display-lg text-primary tabular-nums" data-design-text-token="display-lg">28+</span>
+              <span class="font-label text-label-lg text-on-surface" data-design-text-token="label-lg">Indian Cities</span>
+              <span class="font-body text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Plus 14 major expressways</span>
+            </div>
+
+            <div class="h-full p-gutter-lg rounded-xl bg-surface-container border border-outline/80 flex flex-col gap-gutter-xs">
+              <span class="font-display text-display-lg-mobile md:text-display-lg text-primary tabular-nums" data-design-text-token="display-lg">99.4%</span>
+              <span class="font-label text-label-lg text-on-surface" data-design-text-token="label-lg">Network Uptime</span>
+              <span class="font-body text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Monitored 24/7 remotely</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 7. Footer -->
+    <footer id="download" class="border-t border-outline/60 bg-surface-container-low py-section-md">
+      <div class="max-w-[1200px] mx-auto px-page-margin flex flex-col md:flex-row items-start md:items-center justify-between gap-gutter-xl">
+        <div class="flex flex-col gap-gutter-sm">
+          <div class="inline-flex items-center gap-gutter-sm">
+            <span class="w-8 h-8 rounded-full bg-surface-container border border-primary/40 flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bolt</span>
+            </span>
+            <span class="font-display text-title-lg text-on-surface" data-design-text-token="title-lg">ev.charge</span>
+          </div>
+          <p class="font-body text-body-md text-on-surface-variant" data-design-text-token="body-md">
+            Powering India&#39;s electric commute.
+          </p>
+          <p class="font-label text-label-sm text-on-surface-variant" data-design-text-token="label-sm">
+            © 2026 ev.charge India Pvt. Ltd.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-gutter-lg">
+          <a href="#privacy" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface transition-colors duration-state-change" data-design-text-token="label-lg">Privacy</a>
+          <a href="#terms" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface transition-colors duration-state-change" data-design-text-token="label-lg">Terms</a>
+          <a href="#refund" class="font-label text-label-lg text-on-surface-variant hover:text-on-surface transition-colors duration-state-change" data-design-text-token="label-lg">Refund Policy</a>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-gutter-sm">
+          <a href="#google-play" class="inline-flex items-center gap-gutter-sm px-4 py-2.5 rounded-xl bg-surface-container border border-outline hover:border-primary/50 transition-[border-color] duration-state-change">
+            <span class="material-symbols-outlined text-[22px] text-primary" aria-hidden="true">shop</span>
+            <div class="flex flex-col leading-tight">
+              <span class="font-label text-label-sm text-on-surface-variant" data-design-text-token="label-sm">GET IT ON</span>
+              <span class="font-headline text-label-lg text-on-surface" data-design-text-token="label-lg">Google Play</span>
+            </div>
+          </a>
+
+          <a href="#app-store" class="inline-flex items-center gap-gutter-sm px-4 py-2.5 rounded-xl bg-surface-container border border-outline hover:border-primary/50 transition-[border-color] duration-state-change">
+            <span class="material-symbols-outlined text-[22px] text-on-surface" aria-hidden="true">phone_iphone</span>
+            <div class="flex flex-col leading-tight">
+              <span class="font-label text-label-sm text-on-surface-variant" data-design-text-token="label-sm">Download on the</span>
+              <span class="font-headline text-label-lg text-on-surface" data-design-text-token="label-lg">App Store</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('mobile-menu-btn');
+      var menu = document.getElementById('mobile-menu');
+      if (btn && menu) {
+        btn.addEventListener('click', function () {
+          var isHidden = menu.classList.contains('hidden');
+          if (isHidden) {
+            menu.classList.remove('hidden');
+            btn.setAttribute('aria-expanded', 'true');
+          } else {
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    })();
+  </script>
+
+
+</body></html>

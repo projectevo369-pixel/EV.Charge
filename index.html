@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ev.charge — Effortless EV Charging Across India</title>
+    <meta
+      name="description"
+      content="Locate live DC fast chargers across India, check real-time availability, pay with UPI, and save with monthly plans starting at ₹199."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ev.charge" />
+    <meta property="og:title" content="ev.charge — Effortless EV Charging Across India" />
+    <meta
+      property="og:description"
+      content="Locate live DC fast chargers across India, check real-time availability, pay with UPI, and save with monthly plans starting at ₹199."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ev.charge — Effortless EV Charging Across India" />
+    <meta
+      name="twitter:description"
+      content="Locate live DC fast chargers across India, check real-time availability, pay with UPI, and save with monthly plans starting at ₹199."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Spline+Sans+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Prevent flash of wrong theme before first paint -->
+    <script>
+      (function () {
+        try {
+          var storageKey = 'ev-charge-theme';
+          var stored = localStorage.getItem(storageKey);
+          var prefersDark =
+            window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark =
+            stored === 'dark' ? true : stored === 'light' ? false : prefersDark;
+          var root = document.documentElement;
+          if (isDark) {
+            root.classList.add('dark');
+            root.style.backgroundColor = '#0A0E0F';
+            root.style.colorScheme = 'dark';
+          } else {
+            root.classList.remove('dark');
+            root.style.backgroundColor = '#FFFFFF';
+            root.style.colorScheme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "ev.charge",
+        "applicationCategory": "TravelApplication",
+        "operatingSystem": "Android, iOS",
+        "description": "Locate live DC fast chargers across India, reserve your bay in seconds, pay via UPI, and save with monthly plans starting at ₹199.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

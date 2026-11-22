@@ -1,0 +1,6 @@
+{
+  "name": "ev.charge",
+  "description": "India's fast-charging EV network. Locate live DC fast chargers, book your bay in seconds, pay via UPI, and save with monthly plans starting at ₹199.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
